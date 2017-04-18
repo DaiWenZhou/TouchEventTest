@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
 
-
+    //等下测试。。。焦点。descent
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         String name = v.getTag().toString();
