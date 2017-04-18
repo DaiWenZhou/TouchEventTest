@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.ucai.toucheventtest.view.Mylayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
@@ -8,7 +8,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context="com.ucai.toucheventtest.MainActivity">
-
+    
     <TextView
         android:id="@+id/tv_touchtest"
         style="@style/TextStyle"
@@ -33,4 +33,17 @@
         android:contentDescription=""
         android:src="@mipmap/ic_launcher"/>
 
-</LinearLayout>
+    <com.ucai.toucheventtest.view.Mylayout
+        android:id="@+id/group_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/finally_tv"
+            style="@style/TextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:text="嵌套了布局的Viewgroup的分发测试"/>
+    </com.ucai.toucheventtest.view.Mylayout>
+
+</com.ucai.toucheventtest.view.Mylayout>

@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ucai.toucheventtest.view.Mylayout;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener,View.OnClickListener{
     TextView mTv;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     Button mBtn;
     int downX;
     int upX ;
+    Mylayout mLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         setListener();
     }
     private void initView() {
+        mLayout = (Mylayout) findViewById(R.id.group_content);
         mTv = (TextView) findViewById(R.id.tv_touchtest);
         mBtn = (Button) findViewById(R.id.btn_touchtest);
         mIv = (ImageView) findViewById(R.id.iv_touch_test);
@@ -40,9 +44,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private void setListener() {
         //控件是否可点击影响着dispatchTouchEvent()方法的返回值，
         //从而影响着事件的后续（move，up）是否可以继续下去
+        mLayout.setOnTouchListener(this);
         mTv.setOnTouchListener(this);
         mBtn.setOnTouchListener(this);
         mIv.setOnTouchListener(this);
+
+        mLayout.setTag("MyLayout");
+        mTv.setTag("第一个TextView");
+        mBtn.setTag("button");
+        mIv.setTag("imageView");
 
         //设置点击事件监听时，里面有自动判断去设置点击事件可用
         //即设置监听的方法中使用了setClickable（true），
@@ -51,25 +61,30 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mBtn.setOnClickListener(this);
         mIv.setOnClickListener(this);
         //手动设置成不可点击，这样down动作过后就不会继续动作
-//        mTv.setClickable(false);
+        mTv.setClickable(false);
+        mLayout.setClickable(true);
     }
 
 
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
+        String name = v.getTag().toString();
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 //round方法不是单纯的四舍五入，其实四舍六入，且中间0.5时会复杂些
                 //这里不管那么多，不需要精确值，当做四舍五入
                 downX = Math.round(event.getRawX());
-                Log.i("test_touch","onTouch(()方法中，触摸事件为：down按下");
+
+                Log.i("test_touch","onTouch(()方法中，触摸事件为："+name+"down按下\n");
                 break;
             case MotionEvent.ACTION_UP:
+
+
+
                 //四舍五入
                 upX = (int)(event.getRawX()+0.5f);
-                Log.i("test_touch","onTouch()方法中，触摸事件为：up抬起");
+                Log.i("test_touch","onTouch()方法中，触摸事件为："+name+"up抬起\n");
                 //判断移动的距离
                 if (upX!=downX){
                     Log.i("test_touch","onTouch(()方法中，触摸事件移动了的像素数："+(upX-downX));
@@ -133,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         //现在测试true
         //这样应该就不会调用到ontouchEvent方法，也就不会调用点击事件
         //但由于dispatchTouchEvent返回true，动作会继续下去
-        return true;
+        return false;
 
     }
 
